@@ -9,7 +9,6 @@ import Company from "../images/comapny.svg";
 import thunder from "../images/thunder.svg";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../themes/colors";
-
 export default function JobCard({
   jobTitle,
   location,
@@ -58,7 +57,7 @@ export default function JobCard({
       <CardContent
         style={{
           padding: "8px 16px",
-          height: "400px",
+          height: open ? "auto" : "400px",
         }}
       >
         <div style={{ display: "flex", gap: "10px" }}>
@@ -104,6 +103,7 @@ export default function JobCard({
         </Typography>
         <div
           style={{
+            position: "relative",
             height: open ? "auto" : "200px",
             overflow: open ? "visible" : "hidden",
           }}
@@ -119,13 +119,15 @@ export default function JobCard({
             {jobDescription}
           </Typography>
         </div>
-        <Button
-          variant="text"
-          sx={{ textTransform: "none" }}
-          onClick={() => setOpen((prev) => !prev)}
-        >
-          View job
-        </Button>
+        <div>
+          <Button
+            variant="text"
+            sx={{ textTransform: "none" }}
+            onClick={() => setOpen((prev) => !prev)}
+          >
+            View job
+          </Button>
+        </div>
 
         <Typography
           sx={{

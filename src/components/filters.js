@@ -181,7 +181,7 @@ export default function Filters() {
         id="controllable-states-demo"
         options={MinBasePay}
         sx={{
-          width: "200px",
+          width: "220px",
           padding: "0px",
           marginTop: { xs: "5px", sm: "2px", md: "2px" },
         }}
@@ -195,7 +195,7 @@ export default function Filters() {
         id="outlined-basic"
         label="Search Company Name"
         variant="outlined"
-        sx={{ marginTop: { xs: "5px", sm: "2px", md: "2px" } }}
+        sx={{ marginTop: { xs: "5px", sm: "2px", md: "2px" }, width: "200px" }}
       />
       <TextField
         value={locationInput}
@@ -204,7 +204,7 @@ export default function Filters() {
         id="filled"
         type="search"
         variant="outlined"
-        sx={{ marginTop: { xs: "5px", sm: "2px", md: "2px" } }}
+        sx={{ marginTop: { xs: "5px", sm: "2px", md: "2px" }, width: "200px" }}
       />
     </div>
   );
