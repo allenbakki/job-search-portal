@@ -16,6 +16,7 @@ import {
   filtersearchCompanyName,
   filtersearchLocation,
 } from "../controllers/filter";
+import { debounce } from "../controllers/debounce";
 
 export default function JobList() {
   const [posts, setPosts] = useState([]);
@@ -48,7 +49,7 @@ export default function JobList() {
       }
 
       setPosts((prevItems) => [...prevItems, ...data.jdList]);
-      setOffset((prev) => prev + 30);
+      setOffset((prev) => prev + 10);
     } catch (error) {
       console.error("Error fetching job posts:", error);
       setError(error);
@@ -64,7 +65,6 @@ export default function JobList() {
 
   useEffect(() => {
     function getfiltereddata() {
-      console.log("posts useEffect", posts);
       let filteredData = [...posts];
       filteredData = filterSearchRoles(filteredData, roles);
       filteredData = filterSearchMinBasePay(filteredData, minBasePay);
@@ -74,7 +74,6 @@ export default function JobList() {
       filteredData = filtersearchCompanyName(filteredData, companyName);
       filteredData = filtersearchLocation(filteredData, location);
       setFilteredPosts(filteredData);
-      console.log("filteredData in useEffect", filteredData);
     }
     getfiltereddata();
   }, [
@@ -90,19 +89,21 @@ export default function JobList() {
 
   //whenever the we scroll down then call handleScroll function to fetch data
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isLoading]);
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+          document.documentElement.offsetHeight - 100 &&
+        !isLoading
+      ) {
+        fetchPosts();
+      }
+    };
 
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 100 &&
-      !isLoading
-    ) {
-      fetchPosts();
-    }
-  };
+    const debounceHandleScroll = debounce(handleScroll, 50);
+
+    window.addEventListener("mousewheel", debounceHandleScroll);
+    return () => window.removeEventListener("mousewheel", debounceHandleScroll);
+  }, [isLoading]);
 
   return (
     <>

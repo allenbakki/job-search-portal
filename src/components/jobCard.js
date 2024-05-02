@@ -81,10 +81,15 @@ export default function JobCard({
               }}
               color="text.secondary"
             >
-              companyName
+              Company Name
             </Typography>
-            <Typography sx={{ fontSize: "14px" }}>{jobTitle}</Typography>
-            <Typography sx={{ fontSize: "11px" }}>{location}</Typography>
+            <Typography sx={{ fontSize: "14px" }}>
+              {jobTitle.charAt(0).toUpperCase() + jobTitle.slice(1)}
+            </Typography>
+            <Typography sx={{ fontSize: "11px" }}>
+              {" "}
+              {location.charAt(0).toUpperCase() + location.slice(1)}
+            </Typography>
           </div>
         </div>
 
@@ -130,60 +135,82 @@ export default function JobCard({
           >
             {jobDescription}
           </Typography>
+
+          <div
+            style={{
+              ...(open
+                ? {}
+                : {
+                    position: "absolute",
+                    bottom: 0,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    width: "100%",
+                    backgroundColor: "rgba(255, 255, 255, 0.5)",
+                    backdropFilter: "blur(2px)",
+                  }),
+            }}
+          >
+            <Button
+              variant="text"
+              size="small"
+              sx={{
+                textTransform: "none",
+                fontFamily:
+                  "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
+                marginX: "auto",
+                paddingY: "10px",
+              }}
+              onClick={() => setOpen((prev) => !prev)}
+            >
+              {open ? "Show Less" : "View job"}
+            </Button>
+          </div>
         </div>
-        <div className="blurr">
-          <Button
-            variant="text"
+        <div style={{ marginTop: "40px" }}>
+          <Typography
             sx={{
-              textTransform: "none",
+              fontSize: "13px",
+              textAlign: "start",
+              marginTop: "px",
+              fontWeight: "bold",
+
               fontFamily:
                 "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
             }}
-            onClick={() => setOpen((prev) => !prev)}
+            color="text.secondary"
           >
-            View job
-          </Button>
+            Minimum Experience
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: "14px",
+              textAlign: "start",
+              marginTop: "2px",
+              fontFamily:
+                "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
+            }}
+          >
+            {minExp !== null && maxExp !== null
+              ? `${minExp} - ${maxExp} years`
+              : ""}
+          </Typography>
+
+          <Typography
+            sx={{
+              fontSize: "14px",
+              textAlign: "start",
+              marginTop: "2px",
+              fontFamily:
+                "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
+            }}
+            color="text.secondary"
+          >
+            {experience}
+          </Typography>
         </div>
-
-        <Typography
-          sx={{
-            fontSize: "13px",
-            textAlign: "start",
-            marginTop: "2px",
-            fontWeight: "bold",
-            fontFamily:
-              "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
-          }}
-          color="text.secondary"
-        >
-          Minimum Experience
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: "14px",
-            textAlign: "start",
-            marginTop: "2px",
-            fontFamily:
-              "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
-          }}
-        >
-          {minExp !== null && maxExp !== null
-            ? `${minExp} - ${maxExp} years`
-            : ""}
-        </Typography>
-
-        <Typography
-          sx={{
-            fontSize: "14px",
-            textAlign: "start",
-            marginTop: "2px",
-            fontFamily:
-              "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
-          }}
-          color="text.secondary"
-        >
-          {experience}
-        </Typography>
       </CardContent>
       <div>
         <CardActions>

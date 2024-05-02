@@ -35,7 +35,7 @@ export const filterSearchMinBasePay = (array, searchTerm) => {
     if (!isNaN(number) && number > 0) {
       return array.filter((item) => {
         if (item.minJdSalary !== null && item.maxJdSalary !== null) {
-          return item.minJdSalary <= number && number < item.maxJdSalary;
+          return item.minJdSalary <= number;
         }
         return false;
       });
