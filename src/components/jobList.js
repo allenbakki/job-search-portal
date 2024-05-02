@@ -2,13 +2,20 @@ import React, { useState, useEffect } from "react";
 import JobCard from "./jobCard";
 import Grid from "@mui/material/Grid";
 import getJobListData from "../api/jobList";
+import CircularProgress from "@mui/material/CircularProgress";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "../themes/colors";
 
 export default function JobList() {
   const [posts, setPosts] = useState([]);
   const [offset, setOffset] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // to fetch  job posts
   async function fetchPosts() {
+    setIsLoading(true);
+    setError(null);
     try {
       const data = await getJobListData(offset);
 
@@ -17,12 +24,33 @@ export default function JobList() {
       console.log(data);
     } catch (error) {
       console.error("Error fetching job posts:", error);
+      setError(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
+  //initially when the page mounts get the data
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  //whenever the we scroll down then call handleScroll function to fetch data
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isLoading]);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight ||
+      isLoading
+    ) {
+      return;
+    }
+    fetchPosts();
+  };
 
   return (
     <>
@@ -45,6 +73,18 @@ export default function JobList() {
             </Grid>
           ))}
         </Grid>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ThemeProvider theme={theme}>
+          {isLoading && <CircularProgress color="ochre" />}
+          {error && <p>Error: {error.message}</p>}
+        </ThemeProvider>
       </div>
     </>
   );
