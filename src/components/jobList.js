@@ -5,12 +5,14 @@ import getJobListData from "../api/jobList";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../themes/colors";
+import { Typography } from "@mui/material";
 
 export default function JobList() {
   const [posts, setPosts] = useState([]);
   const [offset, setOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
 
   // to fetch  job posts
   async function fetchPosts() {
@@ -19,6 +21,9 @@ export default function JobList() {
     try {
       const data = await getJobListData(offset);
 
+      if (data.jdList.length === 0) {
+        setMessage("loaded entire data, no futher data found");
+      }
       setPosts((prevItems) => [...prevItems, ...data.jdList]);
       setOffset((prev) => prev + 1);
       console.log(data);
@@ -74,6 +79,7 @@ export default function JobList() {
           ))}
         </Grid>
       </div>
+
       <div
         style={{
           display: "flex",
@@ -86,6 +92,19 @@ export default function JobList() {
           {error && <p>Error: {error.message}</p>}
         </ThemeProvider>
       </div>
+
+      {message !== "" && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "12px",
+          }}
+        >
+          <Typography>{message}</Typography>
+        </div>
+      )}
     </>
   );
 }
