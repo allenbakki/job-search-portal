@@ -4,6 +4,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { store, filterActions } from "../store/store";
 import { useSelector, useDispatch } from "react-redux";
 import { Mode, Roles, Experience, TechStack, MinBasePay } from "../data/data";
+import { debounce } from "../controllers/debounce";
 
 //list of data for filters
 
@@ -40,16 +41,28 @@ export default function Filters() {
     dispatch(filterActions.setMinBasePay(newminBasePay));
   };
 
-  const location = useSelector((state) => state.location);
   const [locationInput, setLocationInput] = useState("");
-  const locationHandler = (newLocaton) => {
-    dispatch(filterActions.setLocation(newLocaton));
+  const locationHandler = (newLocation) => {
+    dispatch(filterActions.setLocation(newLocation));
+  };
+  //implemented debouncing so that filtering time could be optimised
+  const debouncedLocationHandler = debounce(locationHandler, 2000);
+  const handleInputLocation = (event) => {
+    const newValue = event.target.value;
+    setLocationInput(newValue);
+    debouncedLocationHandler(newValue);
   };
 
-  const companyName = useSelector((state) => state.companyName);
   const [companyNameInput, setCompanyNameInput] = useState("");
   const companyNameHandler = (newCompanyName) => {
     dispatch(filterActions.setCompanyName(newCompanyName));
+  };
+  const debouncedComapnyNameHandler = debounce(companyNameHandler, 2000);
+
+  const handleInputComapnyName = (event) => {
+    const newValue = event.target.value;
+    setCompanyNameInput(newValue);
+    debouncedComapnyNameHandler(newValue);
   };
 
   store.subscribe(() => console.log("store data", store.getState()));
@@ -84,7 +97,11 @@ export default function Filters() {
         }}
         id="controllable-states-demo"
         options={Roles.filter((item) => !roles.includes(item))}
-        sx={{ padding: "0px", flexShrink: 0 }}
+        sx={{
+          padding: "0px",
+          flexShrink: 0,
+          marginTop: { xs: "5px", sm: "2px", md: "2px" },
+        }}
         renderInput={(params) => {
           return <TextField {...params} label="Roles" />;
         }}
@@ -104,7 +121,7 @@ export default function Filters() {
         sx={{
           width: "150px",
           padding: "0px",
-          marginTop: { xs: "10px", sm: "2px", md: "2px" },
+          marginTop: { xs: "5px", sm: "2px", md: "2px" },
         }}
         renderInput={(params) => <TextField {...params} label="Experience" />}
       />
@@ -124,7 +141,7 @@ export default function Filters() {
         sx={{
           padding: "0px",
           flexShrink: 0,
-          marginTop: { xs: "10px", sm: "2px", md: "2px" },
+          marginTop: { xs: "5px", sm: "2px", md: "2px" },
         }}
         renderInput={(params) => {
           return <TextField {...params} label="Remote" />;
@@ -146,7 +163,7 @@ export default function Filters() {
         sx={{
           padding: "0px",
           flexShrink: 0,
-          marginTop: { xs: "10px", sm: "2px", md: "2px" },
+          marginTop: { xs: "5px", sm: "2px", md: "2px" },
         }}
         renderInput={(params) => {
           return <TextField {...params} label="Tech Stack" />;
@@ -166,40 +183,28 @@ export default function Filters() {
         sx={{
           width: "200px",
           padding: "0px",
-          marginTop: { xs: "10px", sm: "2px", md: "2px" },
+          marginTop: { xs: "5px", sm: "2px", md: "2px" },
         }}
         renderInput={(params) => (
           <TextField {...params} label="Minimum Base Pay" />
         )}
       />
       <TextField
-        value={companyName}
-        onChange={(event, newValue) => {
-          companyNameHandler(newValue);
-        }}
-        inputValue={companyNameInput}
-        onInputChange={(event, newInputValue) => {
-          setCompanyNameInput(newInputValue);
-        }}
+        value={companyNameInput}
+        onChange={handleInputComapnyName}
         id="outlined-basic"
         label="Search Company Name"
         variant="outlined"
-        sx={{ marginTop: { xs: "10px", sm: "2px", md: "2px" } }}
+        sx={{ marginTop: { xs: "5px", sm: "2px", md: "2px" } }}
       />
       <TextField
-        value={location}
-        onChange={(event, newValue) => {
-          locationHandler(newValue);
-        }}
-        inputValue={locationInput}
-        onInputChange={(event, newInputValue) => {
-          setLocationInput(newInputValue);
-        }}
+        value={locationInput}
+        onChange={handleInputLocation}
         label="Location"
         id="filled"
         type="search"
         variant="outlined"
-        sx={{ marginTop: { xs: "10px", sm: "2px", md: "2px" } }}
+        sx={{ marginTop: { xs: "5px", sm: "2px", md: "2px" } }}
       />
     </div>
   );

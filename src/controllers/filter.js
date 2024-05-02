@@ -1,16 +1,27 @@
 //to check company name
 export const filtersearchCompanyName = (array, searchTerm) => {
-  return array.filter(
-    (item) => item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-  );
+  if (searchTerm && typeof searchTerm === "string") {
+    return array.filter((item) => {
+      return (
+        item.companyName &&
+        item.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+  } else {
+    return array;
+  }
 };
 
 //to check location
 export const filtersearchLocation = (array, searchTerm) => {
-  return array.filter(
-    (item) =>
-      item.location.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-  );
+  if (searchTerm !== "") {
+    return array.filter(
+      (item) =>
+        item.location.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+    );
+  } else {
+    return array;
+  }
 };
 //to check min base pay
 export const filterSearchMinBasePay = (array, searchTerm) => {
