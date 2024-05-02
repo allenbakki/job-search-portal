@@ -48,7 +48,7 @@ export default function JobList() {
       }
 
       setPosts((prevItems) => [...prevItems, ...data.jdList]);
-      setOffset((prev) => prev + 10);
+      setOffset((prev) => prev + 30);
     } catch (error) {
       console.error("Error fetching job posts:", error);
       setError(error);
@@ -65,7 +65,7 @@ export default function JobList() {
   useEffect(() => {
     function getfiltereddata() {
       console.log("posts useEffect", posts);
-      let filteredData = posts;
+      let filteredData = [...posts];
       filteredData = filterSearchRoles(filteredData, roles);
       filteredData = filterSearchMinBasePay(filteredData, minBasePay);
       filteredData = filterSearchMinExp(filteredData, experience);
@@ -103,19 +103,6 @@ export default function JobList() {
       fetchPosts();
     }
   };
-
-  useEffect(() => {
-    console.log("filteredPosts", filteredPosts);
-
-    if (
-      window.innerHeight === document.documentElement.scrollHeight &&
-      !isLoading &&
-      !error &&
-      !message
-    ) {
-      fetchPosts();
-    }
-  }, [filteredPosts]);
 
   return (
     <>

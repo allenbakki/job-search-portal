@@ -4,7 +4,7 @@ async function getJobListData(offset) {
     myHeaders.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
-      limit: 10,
+      limit: 30,
       offset: offset,
     });
 
