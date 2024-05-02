@@ -131,7 +131,7 @@ export default function JobCard({
             {jobDescription}
           </Typography>
         </div>
-        <div>
+        <div className="blurr">
           <Button
             variant="text"
             sx={{

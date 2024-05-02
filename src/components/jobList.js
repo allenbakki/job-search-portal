@@ -19,6 +19,8 @@ import {
 
 export default function JobList() {
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+
   const [offset, setOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -45,32 +47,7 @@ export default function JobList() {
         return setMessage("loaded entire data, no futher data found");
       }
 
-      // Apply filters to the data fetched
-      console.log(data);
-      let filteredData = data.jdList;
-      filteredData = filterSearchRoles(filteredData, roles);
-      console.log("filterSearchRoles", filteredData);
-      console.log("minBasePay", minBasePay);
-      filteredData = filterSearchMinBasePay(filteredData, minBasePay);
-      console.log("filterSearchMinBasePay", filteredData);
-      filteredData = filterSearchMinExp(filteredData, experience);
-      console.log("filterSearchMinExp", filteredData);
-      filteredData = filterSearchMode(filteredData, mode);
-      console.log("filterSearchMode", filteredData);
-
-      filteredData = filterSearchTeachStack(filteredData, techStack);
-      console.log("filterSearchTeachStack", filteredData);
-
-      filteredData = filtersearchCompanyName(filteredData, companyName);
-      console.log("filtersearchCompanyName", filteredData);
-
-      filteredData = filtersearchLocation(filteredData, location);
-      console.log("filtersearchLocation", filteredData);
-
-      console.log("offset", offset);
-      console.log("filtered data", filteredData);
-
-      setPosts((prevItems) => [...prevItems, ...filteredData]);
+      setPosts((prevItems) => [...prevItems, ...data.jdList]);
       setOffset((prev) => prev + 10);
     } catch (error) {
       console.error("Error fetching job posts:", error);
@@ -86,16 +63,30 @@ export default function JobList() {
   }, []);
 
   useEffect(() => {
-    if (posts.length < 10 && message === "") {
-      fetchPosts();
+    function getfiltereddata() {
+      console.log("posts useEffect", posts);
+      let filteredData = posts;
+      filteredData = filterSearchRoles(filteredData, roles);
+      filteredData = filterSearchMinBasePay(filteredData, minBasePay);
+      filteredData = filterSearchMinExp(filteredData, experience);
+      filteredData = filterSearchMode(filteredData, mode);
+      filteredData = filterSearchTeachStack(filteredData, techStack);
+      filteredData = filtersearchCompanyName(filteredData, companyName);
+      filteredData = filtersearchLocation(filteredData, location);
+      setFilteredPosts(filteredData);
+      console.log("filteredData in useEffect", filteredData);
     }
-  }, [posts, message]);
-
-  useEffect(() => {
-    setOffset(0);
-    setPosts([]);
-    fetchPosts();
-  }, [roles, minBasePay, experience, mode, techStack, companyName, location]);
+    getfiltereddata();
+  }, [
+    roles,
+    minBasePay,
+    experience,
+    mode,
+    techStack,
+    companyName,
+    location,
+    posts,
+  ]);
 
   //whenever the we scroll down then call handleScroll function to fetch data
   useEffect(() => {
@@ -113,6 +104,19 @@ export default function JobList() {
     }
   };
 
+  useEffect(() => {
+    console.log("filteredPosts", filteredPosts);
+
+    if (
+      window.innerHeight === document.documentElement.scrollHeight &&
+      !isLoading &&
+      !error &&
+      !message
+    ) {
+      fetchPosts();
+    }
+  }, [filteredPosts]);
+
   return (
     <>
       <div>
@@ -121,7 +125,7 @@ export default function JobList() {
           rowSpacing={{ xs: 2, sm: 5, md: 5 }}
           columnSpacing={{ xs: 1, sm: 3, md: 3 }}
         >
-          {posts.map((item) => (
+          {filteredPosts.map((item) => (
             <Grid item xs={12} sm={6} md={4} lg={3} xl={3} key={item.jdUid}>
               <JobCard
                 jobTitle={item.jobRole}
