@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { filterActions } from "../store/store";
+import { store, filterActions } from "../store/store";
 import { useSelector, useDispatch } from "react-redux";
 import { Mode, Roles, Experience, TechStack, MinBasePay } from "../data/data";
 
@@ -39,6 +39,20 @@ export default function Filters() {
   const minBasePayHandler = (newminBasePay) => {
     dispatch(filterActions.setMinBasePay(newminBasePay));
   };
+
+  const location = useSelector((state) => state.location);
+  const [locationInput, setLocationInput] = useState("");
+  const locationHandler = (newLocaton) => {
+    dispatch(filterActions.setLocation(newLocaton));
+  };
+
+  const companyName = useSelector((state) => state.companyName);
+  const [companyNameInput, setCompanyNameInput] = useState("");
+  const companyNameHandler = (newCompanyName) => {
+    dispatch(filterActions.setCompanyName(newCompanyName));
+  };
+
+  store.subscribe(() => console.log("store data", store.getState()));
 
   return (
     <div
@@ -101,7 +115,7 @@ export default function Filters() {
         onChange={(event, newValue) => {
           modeHandler(newValue);
         }}
-        remoteVal={modeInput}
+        inputValue={modeInput}
         onInputChange={(event, newInputValue) => {
           setModeInput(newInputValue);
         }}
@@ -123,7 +137,7 @@ export default function Filters() {
         onChange={(event, newValue) => {
           techStackHandler(newValue);
         }}
-        techVal={techStackInput}
+        inputValue={techStackInput}
         onInputChange={(event, newInputValue) => {
           setTechStackInput(newInputValue);
         }}
@@ -159,14 +173,31 @@ export default function Filters() {
         )}
       />
       <TextField
+        value={companyName}
+        onChange={(event, newValue) => {
+          companyNameHandler(newValue);
+        }}
+        inputValue={companyNameInput}
+        onInputChange={(event, newInputValue) => {
+          setCompanyNameInput(newInputValue);
+        }}
         id="outlined-basic"
         label="Search Company Name"
         variant="outlined"
         sx={{ marginTop: { xs: "10px", sm: "2px", md: "2px" } }}
       />
       <TextField
-        id="outlined-basic"
+        value={location}
+        onChange={(event, newValue) => {
+          locationHandler(newValue);
+        }}
+        inputValue={locationInput}
+        onInputChange={(event, newInputValue) => {
+          setLocationInput(newInputValue);
+        }}
         label="Location"
+        id="filled"
+        type="search"
         variant="outlined"
         sx={{ marginTop: { xs: "10px", sm: "2px", md: "2px" } }}
       />

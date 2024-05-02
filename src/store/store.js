@@ -6,11 +6,11 @@ const filters = createSlice({
   initialState: {
     roles: [],
     mode: [],
-    location: [],
+    location: "",
     techStack: [],
     experience: undefined,
     minBasePay: "",
-    companyName: [],
+    companyName: "",
   },
   reducers: {
     setRoles: (state, action) => {
