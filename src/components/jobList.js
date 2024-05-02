@@ -12,6 +12,7 @@ import {
   filterSearchMode,
   filterSearchMinExp,
   filterSearchMinBasePay,
+  filterSearchTeachStack,
 } from "../controllers/filter";
 
 export default function JobList() {
@@ -26,6 +27,7 @@ export default function JobList() {
   const experience = useSelector((state) => state.experience);
   const mode = useSelector((state) => state.mode);
   const minBasePay = useSelector((state) => state.minBasePay);
+  const techStack = useSelector((state) => state.techStack);
 
   // to fetch  job posts
   async function fetchPosts() {
@@ -45,7 +47,8 @@ export default function JobList() {
       filteredData = filterSearchMinBasePay(filteredData, minBasePay);
       filteredData = filterSearchMinExp(filteredData, experience);
       filteredData = filterSearchMode(filteredData, mode);
-
+      filteredData = filterSearchTeachStack(filteredData, techStack);
+      console.log("offset", offset);
       console.log("filtered data", filteredData);
 
       setPosts((prevItems) => [...prevItems, ...filteredData]);
@@ -73,7 +76,7 @@ export default function JobList() {
     setOffset(0);
     setPosts([]);
     fetchPosts();
-  }, [roles, minBasePay, experience, mode]);
+  }, [roles, minBasePay, experience, mode, techStack]);
 
   //whenever the we scroll down then call handleScroll function to fetch data
   useEffect(() => {

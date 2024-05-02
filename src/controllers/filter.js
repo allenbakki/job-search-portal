@@ -71,9 +71,13 @@ export const filterSearchMode = (array, searchTermArray) => {
 //to search for text stack
 export const filterSearchTeachStack = (array, searchTermArray) => {
   if (searchTermArray.length > 0) {
-    return array.filter((item) =>
-      checkList(item.techStack.toLowerCase(), searchTermArray)
-    );
+    return array.filter((item) => {
+      if (item.techStack) {
+        return checkList(item.techStack.toLowerCase(), searchTermArray);
+      } else {
+        return false; // Handles where techStack is missing
+      }
+    });
   } else {
     return array;
   }
