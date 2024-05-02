@@ -208,7 +208,6 @@ export default function Filters() {
         value={locationInput}
         onChange={handleInputLocation}
         label="Location"
-        id="filled"
         variant="outlined"
         sx={{ marginTop: { xs: "5px", sm: "2px", md: "2px" }, width: "200px" }}
       />
