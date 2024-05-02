@@ -16,8 +16,10 @@ export default function JobCard({
   jobDescription,
   experience,
   jdLink,
+  minExp,
+  maxExp,
 }) {
-  const [open, setOpen] = useState(false); 
+  const [open, setOpen] = useState(false);
 
   const handleButtonClick = () => {
     window.open(jdLink, "_blank");
@@ -30,7 +32,7 @@ export default function JobCard({
         maxWidth: "360px",
         borderRadius: "20px",
         padding: "5px",
-        textTransform: "none", 
+        textTransform: "none",
         transition: "transform 0.3s ease-in-out",
         "&:hover": {
           transform: "scale(1.02)",
@@ -56,14 +58,15 @@ export default function JobCard({
       <CardContent
         style={{
           padding: "8px 16px",
+          height: "400px",
         }}
       >
         <div style={{ display: "flex", gap: "10px" }}>
-          <img src={Company} alt="hourglass" width={40} height={40} />
+          <img src={Company} alt="company" width={40} height={40} />
           <div
             style={{
               display: "flex",
-              flexDirection: "column", 
+              flexDirection: "column",
               textAlign: "start",
             }}
           >
@@ -123,6 +126,7 @@ export default function JobCard({
         >
           View job
         </Button>
+
         <Typography
           sx={{
             fontSize: "13px",
@@ -133,6 +137,18 @@ export default function JobCard({
         >
           Minimum Experience
         </Typography>
+        <Typography
+          sx={{
+            fontSize: "14px",
+            textAlign: "start",
+            marginTop: "2px",
+          }}
+        >
+          {minExp !== null && maxExp !== null
+            ? `${minExp} - ${maxExp} years`
+            : ""}
+        </Typography>
+
         <Typography
           sx={{
             fontSize: "14px",

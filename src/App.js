@@ -1,10 +1,10 @@
 import "./App.css";
-import JobCard from "./components/jobCard";
+import JobList from "./components/jobList";
 
 function App() {
   return (
-    <div className="App">
-      <JobCard />
+    <div className="App" style={{ padding: "20px" }}>
+      <JobList />
     </div>
   );
 }

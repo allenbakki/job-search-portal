@@ -5,20 +5,22 @@ async function getJobListData(offset) {
 
     const raw = JSON.stringify({
       limit: 10,
-      offset: { offset },
+      offset: offset,
     });
 
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
-      body: { raw },
+      body: raw,
     };
 
     const response = await fetch(
       `https://api.weekday.technology/adhoc/getSampleJdJSON`,
       requestOptions
     );
+
     const result = await response.json();
+    console.log("result", result);
 
     return result;
   } catch (error) {
