@@ -48,6 +48,8 @@ export default function JobCard({
             borderRadius: "10px",
             fontSize: "9px",
             boxShadow: "0px 1px ",
+            fontFamily:
+              "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
           }}
         >
           ⏳ Posted 10 hrs ago
@@ -69,13 +71,20 @@ export default function JobCard({
               textAlign: "start",
             }}
           >
-            <Typography sx={{ fontSize: "13px", marginTop: "3px" }}>
+            <Typography
+              sx={{
+                fontSize: "13px",
+                marginTop: "3px",
+                fontWeight: "bold",
+                fontFamily:
+                  "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
+              }}
+              color="text.secondary"
+            >
               companyName
             </Typography>
             <Typography sx={{ fontSize: "14px" }}>{jobTitle}</Typography>
-            <Typography sx={{ fontSize: "11px" }} color="text.secondary">
-              {location}
-            </Typography>
+            <Typography sx={{ fontSize: "11px" }}>{location}</Typography>
           </div>
         </div>
 
@@ -85,8 +94,9 @@ export default function JobCard({
             textAlign: "start",
             marginTop: 1,
             fontWeight: "bold",
+            fontFamily:
+              "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
           }}
-          color="text.secondary"
         >
           About Company:
         </Typography>
@@ -96,8 +106,9 @@ export default function JobCard({
             textAlign: "start",
             marginTop: "2px",
             fontWeight: "bold",
+            fontFamily:
+              "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
           }}
-          color="text.secondary"
         >
           About Us
         </Typography>
@@ -110,11 +121,12 @@ export default function JobCard({
         >
           <Typography
             sx={{
-              fontSize: "12px",
+              fontSize: "14px",
               textAlign: "start",
               marginTop: "2px",
+              fontFamily:
+                "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
             }}
-            color="text.secondary"
           >
             {jobDescription}
           </Typography>
@@ -122,7 +134,11 @@ export default function JobCard({
         <div>
           <Button
             variant="text"
-            sx={{ textTransform: "none" }}
+            sx={{
+              textTransform: "none",
+              fontFamily:
+                "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
+            }}
             onClick={() => setOpen((prev) => !prev)}
           >
             View job
@@ -134,6 +150,9 @@ export default function JobCard({
             fontSize: "13px",
             textAlign: "start",
             marginTop: "2px",
+            fontWeight: "bold",
+            fontFamily:
+              "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
           }}
           color="text.secondary"
         >
@@ -144,6 +163,8 @@ export default function JobCard({
             fontSize: "14px",
             textAlign: "start",
             marginTop: "2px",
+            fontFamily:
+              "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
           }}
         >
           {minExp !== null && maxExp !== null
@@ -156,6 +177,8 @@ export default function JobCard({
             fontSize: "14px",
             textAlign: "start",
             marginTop: "2px",
+            fontFamily:
+              "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
           }}
           color="text.secondary"
         >
@@ -170,7 +193,14 @@ export default function JobCard({
               color="ochre"
               size="large"
               variant="contained"
-              sx={{ width: "500px", textTransform: "none" }}
+              sx={{
+                width: "500px",
+                textTransform: "none",
+                fontWeight: "bold",
+                fontFamily:
+                  "font-family: __LexendFont_7838d2, __LexendFont_Fallback_7838d2",
+                fontSize: "16px",
+              }}
               startIcon={<img src={thunder} alt="Custom Icon" width={18} />}
             >
               Easy Apply

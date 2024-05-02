@@ -79,6 +79,7 @@ export default function Filters() {
       }}
     >
       <Autocomplete
+        size="small"
         style={{
           width: "fit-content",
           minWidth: "150px",
@@ -108,6 +109,7 @@ export default function Filters() {
       />
 
       <Autocomplete
+        size="small"
         value={experience}
         onChange={(event, newValue) => {
           experienceHandler(newValue);
@@ -126,6 +128,7 @@ export default function Filters() {
         renderInput={(params) => <TextField {...params} label="Experience" />}
       />
       <Autocomplete
+        size="small"
         style={{ width: "fit-content", minWidth: "120px" }}
         multiple
         value={mode}
@@ -148,6 +151,7 @@ export default function Filters() {
         }}
       />
       <Autocomplete
+        size="small"
         style={{ width: "fit-content", minWidth: "150px" }}
         multiple
         value={techStack}
@@ -170,6 +174,7 @@ export default function Filters() {
         }}
       />
       <Autocomplete
+        size="small"
         value={minBasePay}
         onChange={(event, newValue) => {
           minBasePayHandler(newValue);
@@ -190,19 +195,20 @@ export default function Filters() {
         )}
       />
       <TextField
+        size="small"
         value={companyNameInput}
         onChange={handleInputComapnyName}
         id="outlined-basic"
         label="Search Company Name"
         variant="outlined"
-        sx={{ marginTop: { xs: "5px", sm: "2px", md: "2px" }, width: "200px" }}
+        sx={{ marginTop: { xs: "5px", sm: "2px", md: "2px" }, width: "220px" }}
       />
       <TextField
+        size="small"
         value={locationInput}
         onChange={handleInputLocation}
         label="Location"
         id="filled"
-        type="search"
         variant="outlined"
         sx={{ marginTop: { xs: "5px", sm: "2px", md: "2px" }, width: "200px" }}
       />
