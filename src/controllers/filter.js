@@ -25,22 +25,28 @@ export const filtersearchLocation = (array, searchTerm) => {
 };
 //to check min base pay
 export const filterSearchMinBasePay = (array, searchTerm) => {
-  let number = parseInt(searchTerm.replace(/\D/g, ""));
-
-  if (number > 0) {
-    return array.filter((item) => {
-      if (item.minJdSalary !== null && item.maxJdSalary !== null) {
-        return item.minJdSalary <= number && number < item.maxJdSalary;
-      }
-    });
-  } else {
-    return array;
+  if (
+    searchTerm !== null &&
+    searchTerm !== undefined &&
+    typeof searchTerm === "string" &&
+    searchTerm.trim() !== ""
+  ) {
+    let number = parseInt(searchTerm.replace(/\D/g, ""));
+    if (!isNaN(number) && number > 0) {
+      return array.filter((item) => {
+        if (item.minJdSalary !== null && item.maxJdSalary !== null) {
+          return item.minJdSalary <= number && number < item.maxJdSalary;
+        }
+        return false;
+      });
+    }
   }
+  return array;
 };
 
 //to check min exp
 export const filterSearchMinExp = (array, searchTerm) => {
-  if (searchTerm > 0) {
+  if (searchTerm > 0 && searchTerm !== undefined) {
     return array.filter((item) => {
       if (item.minExp !== null && item.maxExp !== null) {
         return item.minExp <= searchTerm && searchTerm < item.maxExp;

@@ -13,6 +13,8 @@ import {
   filterSearchMinExp,
   filterSearchMinBasePay,
   filterSearchTeachStack,
+  filtersearchCompanyName,
+  filtersearchLocation,
 } from "../controllers/filter";
 
 export default function JobList() {
@@ -44,14 +46,26 @@ export default function JobList() {
       }
 
       // Apply filters to the data fetched
+      console.log(data);
       let filteredData = data.jdList;
       filteredData = filterSearchRoles(filteredData, roles);
+      console.log("filterSearchRoles", filteredData);
+      console.log("minBasePay", minBasePay);
       filteredData = filterSearchMinBasePay(filteredData, minBasePay);
+      console.log("filterSearchMinBasePay", filteredData);
       filteredData = filterSearchMinExp(filteredData, experience);
+      console.log("filterSearchMinExp", filteredData);
       filteredData = filterSearchMode(filteredData, mode);
+      console.log("filterSearchMode", filteredData);
+
       filteredData = filterSearchTeachStack(filteredData, techStack);
-      filteredData = filterSearchTeachStack(filteredData, companyName);
-      filteredData = filterSearchTeachStack(filteredData, location);
+      console.log("filterSearchTeachStack", filteredData);
+
+      filteredData = filtersearchCompanyName(filteredData, companyName);
+      console.log("filtersearchCompanyName", filteredData);
+
+      filteredData = filtersearchLocation(filteredData, location);
+      console.log("filtersearchLocation", filteredData);
 
       console.log("offset", offset);
       console.log("filtered data", filteredData);
