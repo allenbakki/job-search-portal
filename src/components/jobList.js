@@ -46,6 +46,8 @@ export default function JobList() {
       filteredData = filterSearchMinExp(filteredData, experience);
       filteredData = filterSearchMode(filteredData, mode);
 
+      console.log("filtered data", filteredData);
+
       setPosts((prevItems) => [...prevItems, ...filteredData]);
       setOffset((prev) => prev + 10);
     } catch (error) {

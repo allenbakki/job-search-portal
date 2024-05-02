@@ -14,21 +14,24 @@ export const filtersearchLocation = (array, searchTerm) => {
 };
 //to check min base pay
 export const filterSearchMinBasePay = (array, searchTerm) => {
-  if (searchTerm > 0) {
+  let number = parseInt(searchTerm.replace(/\D/g, ""));
+
+  if (number > 0) {
     return array.filter((item) => {
-      if (item.minminJdSalaryExp != null && item.minJdSalary != null) {
-        return item.minJdSalary <= searchTerm && searchTerm < item.maxJdSalary;
+      if (item.minJdSalary !== null && item.maxJdSalary !== null) {
+        return item.minJdSalary <= number && number < item.maxJdSalary;
       }
     });
   } else {
     return array;
   }
 };
+
 //to check min exp
 export const filterSearchMinExp = (array, searchTerm) => {
   if (searchTerm > 0) {
     return array.filter((item) => {
-      if (item.minExp != null && item.maxExp != null) {
+      if (item.minExp !== null && item.maxExp !== null) {
         return item.minExp <= searchTerm && searchTerm < item.maxExp;
       }
     });
