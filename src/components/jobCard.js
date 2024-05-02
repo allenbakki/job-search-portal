@@ -17,7 +17,7 @@ export default function JobCard({
   experience,
   jdLink,
 }) {
-  const [open, setOpen] = useState(false); // Corrected the useState declaration
+  const [open, setOpen] = useState(false); 
 
   const handleButtonClick = () => {
     window.open(jdLink, "_blank");
@@ -30,8 +30,8 @@ export default function JobCard({
         maxWidth: "360px",
         borderRadius: "20px",
         padding: "5px",
-        textTransform: "none", // Ensure the text appears in its normal form
-        transition: "transform 0.3s ease-in-out", // Specify transition properties
+        textTransform: "none", 
+        transition: "transform 0.3s ease-in-out",
         "&:hover": {
           transform: "scale(1.02)",
         },
@@ -63,7 +63,7 @@ export default function JobCard({
           <div
             style={{
               display: "flex",
-              flexDirection: "column", // Corrected the flex direction property
+              flexDirection: "column", 
               textAlign: "start",
             }}
           >
