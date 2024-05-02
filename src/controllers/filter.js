@@ -15,7 +15,11 @@ export const filtersearchLocation = (array, searchTerm) => {
 //to check min base pay
 export const filterSearchMinBasePay = (array, searchTerm) => {
   if (searchTerm > 0) {
-    return array.filter((item) => item.minJdSalary >= searchTerm);
+    return array.filter((item) => {
+      if (item.minminJdSalaryExp != null && item.minJdSalary != null) {
+        return item.minJdSalary <= searchTerm && searchTerm < item.maxJdSalary;
+      }
+    });
   } else {
     return array;
   }

@@ -6,6 +6,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../themes/colors";
 import { Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import {
+  filterSearchRoles,
+  filterSearchMode,
+  filterSearchMinExp,
+  filterSearchMinBasePay,
+} from "../controllers/filter";
 
 export default function JobList() {
   const [posts, setPosts] = useState([]);
@@ -13,6 +20,12 @@ export default function JobList() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
+
+  // fetching initial states from redux store
+  const roles = useSelector((state) => state.roles);
+  const experience = useSelector((state) => state.experience);
+  const mode = useSelector((state) => state.mode);
+  const minBasePay = useSelector((state) => state.minBasePay);
 
   // to fetch  job posts
   async function fetchPosts() {
@@ -22,11 +35,19 @@ export default function JobList() {
       const data = await getJobListData(offset);
 
       if (data.jdList.length === 0) {
-        setMessage("loaded entire data, no futher data found");
+        setIsLoading(false);
+        return setMessage("loaded entire data, no futher data found");
       }
-      setPosts((prevItems) => [...prevItems, ...data.jdList]);
-      setOffset((prev) => prev + 1);
-      console.log(data);
+
+      // Apply filters to the data fetched
+      let filteredData = data.jdList;
+      filteredData = filterSearchRoles(filteredData, roles);
+      filteredData = filterSearchMinBasePay(filteredData, minBasePay);
+      filteredData = filterSearchMinExp(filteredData, experience);
+      filteredData = filterSearchMode(filteredData, mode);
+
+      setPosts((prevItems) => [...prevItems, ...filteredData]);
+      setOffset((prev) => prev + 10);
     } catch (error) {
       console.error("Error fetching job posts:", error);
       setError(error);
@@ -40,6 +61,18 @@ export default function JobList() {
     fetchPosts();
   }, []);
 
+  useEffect(() => {
+    if (posts.length < 10 && message === "") {
+      fetchPosts();
+    }
+  }, [posts, message]);
+
+  useEffect(() => {
+    setOffset(0);
+    setPosts([]);
+    fetchPosts();
+  }, [roles, minBasePay, experience, mode]);
+
   //whenever the we scroll down then call handleScroll function to fetch data
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -48,13 +81,12 @@ export default function JobList() {
 
   const handleScroll = () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      isLoading
+      window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 100 &&
+      !isLoading
     ) {
-      return;
+      fetchPosts();
     }
-    fetchPosts();
   };
 
   return (
@@ -93,13 +125,14 @@ export default function JobList() {
         </ThemeProvider>
       </div>
 
-      {message !== "" && (
+      {message !== "" && posts.length <= 0 && (
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             fontSize: "12px",
+            marginTop: "30px",
           }}
         >
           <Typography>{message}</Typography>
